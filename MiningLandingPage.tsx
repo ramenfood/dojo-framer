@@ -19,7 +19,7 @@ const sectionStyle = {
 }
 
 // --- Main Page Component (Wraps Everything) ---
-export default function MiningLandingPage() {
+export function MiningLandingPage() {
     return (
         <div style={{ width: "100%", overflowX: "hidden" }}>
             <MiningHero />
@@ -28,11 +28,14 @@ export default function MiningLandingPage() {
             <MiningServices />
             <MiningAbout />
             <MiningFAQ />
-            {/* <MiningContact /> */} {/* These components are not defined in the provided code, commenting out for now */}
-            {/* <MiningFooter /> */}
+            <MiningContact />
+            <MiningFooter />
         </div>
     )
 }
+
+export default MiningLandingPage
+
 
 // --- 1. Hero Section ---
 export function MiningHero() {
@@ -269,7 +272,7 @@ export function MiningFAQ() {
 // --- 7. Contact Us ---
 export function MiningContact() {
     return (
-        <section style={{ ...sectionStyle, backgroundColor: colors.bg, textAlign: "center" }}>
+        <section id="contact" style={{ ...sectionStyle, backgroundColor: colors.bg, textAlign: "center" }}>
             <h2 style={{ fontSize: "2.5rem", fontWeight: "800", marginBottom: "1rem" }}>Ready to Secure Your Workforce?</h2>
             <p style={{ fontSize: "1.2rem", marginBottom: "2rem" }}>Reach out for a confidential strategy session.</p>
 
