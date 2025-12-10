@@ -19,7 +19,7 @@ const sectionStyle = {
 }
 
 // --- Main Page Component (Wraps Everything) ---
-export function MiningLandingPage() {
+function MiningLandingPage() {
     return (
         <div style={{ width: "100%", overflowX: "hidden" }}>
             <MiningHero />
