@@ -38,7 +38,7 @@ export default MiningLandingPage
 
 
 // --- 1. Hero Section ---
-export function MiningHero() {
+function MiningHero() {
     return (
         <section style={styles.container}>
             <div style={styles.content}>
@@ -126,7 +126,7 @@ const styles = {
 }
 
 // --- 2. Mission Section ---
-export function MiningMission() {
+function MiningMission() {
     return (
         <section style={{ ...sectionStyle, backgroundColor: colors.white, textAlign: "center" }}>
             <motion.div
@@ -149,7 +149,7 @@ export function MiningMission() {
 }
 
 // --- 3. Benefits Section ---
-export function MiningBenefits() {
+function MiningBenefits() {
     const benefits = [
         { title: "Specialised for Multi-Site Ops", desc: "Logistics of FIFO/DIDO and remote site management are in our DNA." },
         { title: "Safety & Risk Focus", desc: "Every candidate vetted for safety certifications/tickets before stepping on site." },
@@ -181,7 +181,7 @@ export function MiningBenefits() {
 }
 
 // --- 4. Services Section ---
-export function MiningServices() {
+function MiningServices() {
     const roles = ["Excavator & Dump Truck Operators", "Diesel Fitters & Heavy Mechanics", "Mining Engineers & Geologists", "Site Safety Officers", "Process Technicians"]
 
     return (
@@ -209,7 +209,7 @@ export function MiningServices() {
 }
 
 // --- 5. About Us ---
-export function MiningAbout() {
+function MiningAbout() {
     return (
         <section style={{ ...sectionStyle, backgroundColor: colors.primary, color: colors.white, textAlign: "center" }}>
             <div style={{ maxWidth: "800px", margin: "0 auto" }}>
@@ -228,7 +228,7 @@ export function MiningAbout() {
 }
 
 // --- 6. FAQs ---
-export function MiningFAQ() {
+function MiningFAQ() {
     const [activeIndex, setActiveIndex] = useState(null)
     const faqs = [
         { q: "Can you handle labour agreements for remote mining sites?", a: "Yes, we specialise in DAMA and company-specific labour agreements for regional and remote mining operations." },
@@ -270,7 +270,7 @@ export function MiningFAQ() {
 }
 
 // --- 7. Contact Us ---
-export function MiningContact() {
+function MiningContact() {
     return (
         <section id="contact" style={{ ...sectionStyle, backgroundColor: colors.bg, textAlign: "center" }}>
             <h2 style={{ fontSize: "2.5rem", fontWeight: "800", marginBottom: "1rem" }}>Ready to Secure Your Workforce?</h2>
@@ -293,7 +293,7 @@ export function MiningContact() {
 }
 
 // --- 8. Footer ---
-export function MiningFooter() {
+function MiningFooter() {
     return (
         <footer style={{ padding: "2rem 5%", backgroundColor: colors.primary, color: colors.white, display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.9rem" }}>
             <div>© {new Date().getFullYear()} Dojo Legal Australia. All rights reserved.</div>
