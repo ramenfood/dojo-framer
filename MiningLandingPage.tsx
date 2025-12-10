@@ -18,8 +18,24 @@ const sectionStyle = {
     color: colors.text
 }
 
+// --- Main Page Component (Wraps Everything) ---
+export default function MiningLandingPage() {
+    return (
+        <div style={{ width: "100%", overflowX: "hidden" }}>
+            <MiningHero />
+            <MiningMission />
+            <MiningBenefits />
+            <MiningServices />
+            <MiningAbout />
+            <MiningFAQ />
+            {/* <MiningContact /> */} {/* These components are not defined in the provided code, commenting out for now */}
+            {/* <MiningFooter /> */}
+        </div>
+    )
+}
+
 // --- 1. Hero Section ---
-export default function MiningHero() {
+export function MiningHero() {
     return (
         <section style={styles.container}>
             <div style={styles.content}>
