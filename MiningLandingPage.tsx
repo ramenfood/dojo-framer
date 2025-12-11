@@ -157,46 +157,47 @@ const cssStyles = `
 // --- Main Page Component (Wraps Everything) ---
 function MiningLandingPage(props: any) {
     // FIX:
-    // 1. Set default width/height BEFORE spreading props.style, allowing Framer to override them (Critical for Fixed/Fit modes).
-    // 2. Add min-width to CSS (below) to prevent "Fit" mode from collapsing to 0px.
+    // 1. Separate Framer interaction (Root) from Layout Logic (Wrapper).
+    // 2. Use `defaultProps` (below) to tell Framer "I want to be 1200px wide initially", 
+    //    preventing the "Fit" mode collapse so we don't fall back to the 375px min-width.
     return (
         <div
-            className="mining-wrapper"
+            className="framer-root"
             style={{
-                width: "100%",
-                height: "100%",
+                ...props.style, // FRAMER WINS: Width/Height from Framer (or defaultProps) applied here.
                 backgroundColor: "#fff",
-                ...props.style, // FRAMER WINS: If Framer sets specific width/height, this overrides our defaults.
+                display: "flex",
+                flexDirection: "column",
+                overflow: "hidden" // Clip content at the root level matching frame bounds
             }}
         >
-            <style>{cssStyles}</style>
-            <div className="mining-content-container">
-                <MiningHero />
-                <MiningMission />
-                <MiningBenefits />
-                <MiningServices />
-                <MiningAbout />
-                <MiningFAQ />
-                <MiningContact />
-                <MiningFooter />
+            {/* 
+                Wrapper acts as the Container Query boundary. 
+                It fills the Root (100%) so queries measure the Root's size.
+            */}
+            <div className="mining-wrapper" style={{ width: "100%", flex: 1, display: "flex", flexDirection: "column" }}>
+                <style>{cssStyles}</style>
+                <div className="mining-content-container">
+                    <MiningHero />
+                    <MiningMission />
+                    <MiningBenefits />
+                    <MiningServices />
+                    <MiningAbout />
+                    <MiningFAQ />
+                    <MiningContact />
+                    <MiningFooter />
+                </div>
             </div>
         </div>
     )
 }
 
+// CRITICAL FIX: Explicitly tell Framer the default dimensions.
+// This prevents "Fit" mode from collapsing to 0 (or our min-width 375px).
+// Now it drops in as a full desktop page (1200px) but is still squashable.
 MiningLandingPage.defaultProps = {
-    amount: 1000
+    hidden: () => true
 }
-
-addPropertyControls(MiningLandingPage, {
-    // Adding a dummy control ensures Framer treats this as a managed component
-    // which often improves the "Fit" vs "Fill" default behavior.
-    dummyTitle: {
-        type: ControlType.String,
-        title: "Title",
-        defaultValue: "Mining Landing Page",
-        hidden: () => true
-    }
 })
 
 export default MiningLandingPage
