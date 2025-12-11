@@ -15,12 +15,21 @@ const cssStyles = `
         /* CRITICAL: Defines this element as a container for query purposes */
         container-type: inline-size;
         container-name: mining-page;
-        width: 100%;
-        height: 100%;
-        background-color: #fff;
+        
+        /* FIX: Prevents collapse to 0 width when Framer sets width to 'Fit' */
+        min-width: 375px; 
+
         display: flex;
         flex-direction: column;
         overflow-x: hidden;
+        position: relative;
+    }
+    
+    .mining-content-container {
+        /* Isolate content flex behavior */
+        display: flex;
+        flex-direction: column;
+        width: 100%;
     }
 
     /* Layout */
@@ -147,30 +156,30 @@ const cssStyles = `
 
 // --- Main Page Component (Wraps Everything) ---
 function MiningLandingPage(props: any) {
-    // We override props.style to ensure our critical sizing works, but assume Framer handles positioning wrapper
+    // FIX:
+    // 1. Set default width/height BEFORE spreading props.style, allowing Framer to override them (Critical for Fixed/Fit modes).
+    // 2. Add min-width to CSS (below) to prevent "Fit" mode from collapsing to 0px.
     return (
         <div
             className="mining-wrapper"
             style={{
-                ...props.style, // Accept Framer's positioning/sizing
-                width: "100%",  // Ensure we fill the frame
-                height: "100%", // Ensure we fill the frame
-                position: "relative", // Reset position to relative inside the frame
-                overflowX: "hidden",
+                width: "100%",
+                height: "100%",
                 backgroundColor: "#fff",
-                display: "flex",
-                flexDirection: "column"
+                ...props.style, // FRAMER WINS: If Framer sets specific width/height, this overrides our defaults.
             }}
         >
             <style>{cssStyles}</style>
-            <MiningHero />
-            <MiningMission />
-            <MiningBenefits />
-            <MiningServices />
-            <MiningAbout />
-            <MiningFAQ />
-            <MiningContact />
-            <MiningFooter />
+            <div className="mining-content-container">
+                <MiningHero />
+                <MiningMission />
+                <MiningBenefits />
+                <MiningServices />
+                <MiningAbout />
+                <MiningFAQ />
+                <MiningContact />
+                <MiningFooter />
+            </div>
         </div>
     )
 }
