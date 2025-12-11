@@ -195,10 +195,13 @@ function MiningLandingPage(props: any) {
 // CRITICAL FIX: Explicitly tell Framer the default dimensions.
 // This prevents "Fit" mode from collapsing to 0 (or our min-width 375px).
 // Now it drops in as a full desktop page (1200px) but is still squashable.
+// CRITICAL FIX: Explicitly tell Framer the default dimensions.
+// This prevents "Fit" mode from collapsing to 0 (or our min-width 375px).
+// Now it drops in as a full desktop page (1200px) but is still squashable.
 MiningLandingPage.defaultProps = {
-    hidden: () => true
+    width: 1200,
+    height: 4800
 }
-})
 
 export default MiningLandingPage
 
