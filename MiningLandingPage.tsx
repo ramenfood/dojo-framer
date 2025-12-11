@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { addPropertyControls, ControlType } from "framer"
 
-// --- CSS Styles (Responsive) ---
+// --- CSS Styles (Responsive via Container Queries) ---
 const cssStyles = `
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap');
 
@@ -11,6 +11,18 @@ const cssStyles = `
         box-sizing: border-box;
     }
     
+    .mining-wrapper {
+        /* CRITICAL: Defines this element as a container for query purposes */
+        container-type: inline-size;
+        container-name: mining-page;
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+    }
+
     /* Layout */
     .mining-section {
         padding: 5rem 8%;
@@ -90,17 +102,17 @@ const cssStyles = `
     .text-white { color: #FFFFFF; }
     .text-center { text-align: center; }
 
-    /* --- RESPONSIVE BREAKPOINTS --- */
+    /* --- RESPONSIVE CONTAINER QUERY BREAKPOINTS --- */
     
-    /* Tablet & Small Desktop (Max 1024px) */
-    @media (max-width: 1024px) {
+    /* Tablet & Small Desktop (Max 1024px) relative to CONTAINER */
+    @container mining-page (max-width: 1024px) {
         .mining-section { padding: 4rem 5%; }
         .mining-heading { font-size: 2.8rem; }
         .mining-container-flex { gap: 2rem; }
     }
 
-    /* Mobile (Max 768px) */
-    @media (max-width: 768px) {
+    /* Mobile (Max 768px) relative to CONTAINER */
+    @container mining-page (max-width: 768px) {
         .mining-container-flex {
             flex-direction: column-reverse; 
         }
@@ -125,8 +137,8 @@ const cssStyles = `
         }
     }
 
-    /* Small Mobile (Max 480px) */
-    @media (max-width: 480px) {
+    /* Small Mobile (Max 480px) relative to CONTAINER */
+    @container mining-page (max-width: 480px) {
         .mining-section { padding: 3rem 1.5rem; }
         .mining-heading { font-size: 1.8rem; }
         .mining-grid-benefits { grid-template-columns: 1fr; }
@@ -134,9 +146,22 @@ const cssStyles = `
 `
 
 // --- Main Page Component (Wraps Everything) ---
-function MiningLandingPage(props) {
+function MiningLandingPage(props: any) {
+    // We override props.style to ensure our critical sizing works, but assume Framer handles positioning wrapper
     return (
-        <div className="mining-wrapper" style={{ width: "100%", height: "100%", overflowX: "hidden", backgroundColor: "#fff", display: "flex", flexDirection: "column" }}>
+        <div
+            className="mining-wrapper"
+            style={{
+                ...props.style, // Accept Framer's positioning/sizing
+                width: "100%",  // Ensure we fill the frame
+                height: "100%", // Ensure we fill the frame
+                position: "relative", // Reset position to relative inside the frame
+                overflowX: "hidden",
+                backgroundColor: "#fff",
+                display: "flex",
+                flexDirection: "column"
+            }}
+        >
             <style>{cssStyles}</style>
             <MiningHero />
             <MiningMission />
