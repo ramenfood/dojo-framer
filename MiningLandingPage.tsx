@@ -1,12 +1,13 @@
 import React, { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import { addPropertyControls, ControlType } from "framer"
 
 // --- CSS Styles (Responsive) ---
 const cssStyles = `
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap');
 
     /* Reset & Base */
-    .mining-wrapper * {
+    .mining-wrapper, .mining-wrapper * {
         box-sizing: border-box;
     }
     
@@ -17,6 +18,7 @@ const cssStyles = `
         color: #264653;
         width: 100%;
         position: relative;
+        max-width: 100%;
     }
 
     .mining-container-flex {
@@ -25,6 +27,7 @@ const cssStyles = `
         align-items: center;
         justify-content: space-between;
         gap: 4rem;
+        max-width: 100%;
     }
 
     /* Hero */
@@ -77,6 +80,7 @@ const cssStyles = `
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 2rem;
+        width: 100%;
     }
 
     /* Utilities */
@@ -98,11 +102,10 @@ const cssStyles = `
     /* Mobile (Max 768px) */
     @media (max-width: 768px) {
         .mining-container-flex {
-            flex-direction: column-reverse; /* Stack hero, image on top? Or bottom? usually image top for hero, but here container is generic. Let's handle hero specific. */
+            flex-direction: column-reverse; 
         }
         
         .mining-hero-layout {
-            flex-direction: column-reverse; /* Text bottom, image top usually... actually let's do Text Top, Image Bottom for this design */
             flex-direction: column;
             text-align: center;
         }
@@ -131,9 +134,9 @@ const cssStyles = `
 `
 
 // --- Main Page Component (Wraps Everything) ---
-function MiningLandingPage() {
+function MiningLandingPage(props) {
     return (
-        <div className="mining-wrapper" style={{ width: "100%", overflowX: "hidden", backgroundColor: "#fff" }}>
+        <div className="mining-wrapper" style={{ width: "100%", height: "100%", overflowX: "hidden", backgroundColor: "#fff", display: "flex", flexDirection: "column" }}>
             <style>{cssStyles}</style>
             <MiningHero />
             <MiningMission />
@@ -146,6 +149,21 @@ function MiningLandingPage() {
         </div>
     )
 }
+
+MiningLandingPage.defaultProps = {
+    amount: 1000
+}
+
+addPropertyControls(MiningLandingPage, {
+    // Adding a dummy control ensures Framer treats this as a managed component
+    // which often improves the "Fit" vs "Fill" default behavior.
+    dummyTitle: {
+        type: ControlType.String,
+        title: "Title",
+        defaultValue: "Mining Landing Page",
+        hidden: () => true
+    }
+})
 
 export default MiningLandingPage
 
