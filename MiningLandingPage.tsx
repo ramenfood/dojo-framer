@@ -161,10 +161,8 @@ function MiningLandingPage(props: any) {
         <div
             className="framer-root"
             style={{
-                ...props.style, // Inherit positioning/layout from Framer
-                width: "100%", // CRITICAL: Force fluid width. Fills 1200px on Canvas (via defaultProps), fills Phone on Mobile.
-                height: "100%", // Fill height
-                maxWidth: "100%", // Safety constraint
+                ...props.style, // 1. Inherit 1200px width from defaultProps (Fixes "0 Width" issue)
+                maxWidth: "100%", // 2. Force shrink if parent is smaller than 1200px (Fixes Phone/Tablet overflow)
                 backgroundColor: "#fff",
                 display: "flex",
                 flexDirection: "column",
