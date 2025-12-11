@@ -16,9 +16,6 @@ const cssStyles = `
         container-type: inline-size;
         container-name: mining-page;
         
-        /* FIX: Prevents collapse to 0 width when Framer sets width to 'Fit' */
-        min-width: 375px; 
-
         display: flex;
         flex-direction: column;
         overflow-x: hidden;
@@ -164,11 +161,13 @@ function MiningLandingPage(props: any) {
         <div
             className="framer-root"
             style={{
-                ...props.style, // FRAMER WINS: Width/Height from Framer (or defaultProps) applied here.
+                width: 1200, // Default to Desktop size if Framer assigns no width (Fit mode)
+                maxWidth: "100%", // Ensure we never overflow a parent frame (e.g. Phone)
+                ...props.style, // Allow Framer to override width/height if user resizes or sets "Fill"
                 backgroundColor: "#fff",
                 display: "flex",
                 flexDirection: "column",
-                overflow: "hidden" // Clip content at the root level matching frame bounds
+                overflow: "hidden"
             }}
         >
             {/* 
