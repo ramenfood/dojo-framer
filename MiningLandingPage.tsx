@@ -1,27 +1,140 @@
 import React, { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
-// --- Global Styles & Colors ---
-const colors = {
-    primary: "#623f35", // Dojo Brown
-    accent: "#E07A5F",  // Terra / Safety Orange tone
-    text: "#264653",    // Deep Navy
-    bg: "#F4F1DE",      // Sand/Beige
-    white: "#FFFFFF",
-    lightGrey: "#f0f0f0"
-}
+// --- CSS Styles (Responsive) ---
+const cssStyles = `
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap');
 
-// Global Section Style
-const sectionStyle = {
-    padding: "5rem 8%",
-    fontFamily: "'Montserrat', sans-serif",
-    color: colors.text
-}
+    /* Reset & Base */
+    .mining-wrapper * {
+        box-sizing: border-box;
+    }
+    
+    /* Layout */
+    .mining-section {
+        padding: 5rem 8%;
+        font-family: 'Montserrat', sans-serif;
+        color: #264653;
+        width: 100%;
+        position: relative;
+    }
+
+    .mining-container-flex {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 4rem;
+    }
+
+    /* Hero */
+    .mining-hero {
+        background-color: #F4F1DE;
+        min-height: 80vh;
+        overflow: hidden;
+    }
+    .mining-heading {
+        font-size: 3.5rem;
+        line-height: 1.1;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        color: #264653;
+    }
+    .mining-badge {
+        display: block;
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        color: #623f35;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+    }
+    .mining-subheading {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #264653;
+        margin-bottom: 2.5rem;
+        opacity: 0.9;
+        max-width: 500px;
+    }
+    
+    /* Buttons */
+    .mining-button {
+        padding: 1rem 2rem;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #FFFFFF;
+        background-color: #623f35;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+        transition: transform 0.2s;
+    }
+
+    /* Grids */
+    .mining-grid-benefits {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    /* Utilities */
+    .text-accent { color: #E07A5F; }
+    .bg-white { background-color: #FFFFFF; }
+    .bg-primary { background-color: #623f35; }
+    .text-white { color: #FFFFFF; }
+    .text-center { text-align: center; }
+
+    /* --- RESPONSIVE BREAKPOINTS --- */
+    
+    /* Tablet & Small Desktop (Max 1024px) */
+    @media (max-width: 1024px) {
+        .mining-section { padding: 4rem 5%; }
+        .mining-heading { font-size: 2.8rem; }
+        .mining-container-flex { gap: 2rem; }
+    }
+
+    /* Mobile (Max 768px) */
+    @media (max-width: 768px) {
+        .mining-container-flex {
+            flex-direction: column-reverse; /* Stack hero, image on top? Or bottom? usually image top for hero, but here container is generic. Let's handle hero specific. */
+        }
+        
+        .mining-hero-layout {
+            flex-direction: column-reverse; /* Text bottom, image top usually... actually let's do Text Top, Image Bottom for this design */
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .mining-subheading { margin: 0 auto 2.5rem auto; }
+        
+        .mining-heading { font-size: 2.2rem; }
+        
+        .mining-services-layout {
+            flex-direction: column;
+        }
+
+        .mining-footer-layout {
+            flex-direction: column;
+            gap: 1.5rem;
+            text-align: center;
+        }
+    }
+
+    /* Small Mobile (Max 480px) */
+    @media (max-width: 480px) {
+        .mining-section { padding: 3rem 1.5rem; }
+        .mining-heading { font-size: 1.8rem; }
+        .mining-grid-benefits { grid-template-columns: 1fr; }
+    }
+`
 
 // --- Main Page Component (Wraps Everything) ---
 function MiningLandingPage() {
     return (
-        <div style={{ width: "100%", overflowX: "hidden" }}>
+        <div className="mining-wrapper" style={{ width: "100%", overflowX: "hidden", backgroundColor: "#fff" }}>
+            <style>{cssStyles}</style>
             <MiningHero />
             <MiningMission />
             <MiningBenefits />
@@ -36,106 +149,63 @@ function MiningLandingPage() {
 
 export default MiningLandingPage
 
-
 // --- 1. Hero Section ---
 function MiningHero() {
     return (
-        <section style={styles.container}>
-            <div style={styles.content}>
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                >
-                    <span style={styles.badge}>DOJO LEGAL MINING</span>
-                    <h1 style={styles.heading}>
-                        Workforce Solutions for <br />
-                        <span style={{ color: colors.accent }}>Mining Industry Employers</span>
-                    </h1>
-                    <p style={styles.subheading}>
-                        Secure reliable, safety-conscious skilled labour. We combine legal compliance,
-                        visa sponsorship, and specialized recruitment to keep your site fully operational.
-                    </p>
-                    <motion.button
-                        style={styles.button}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => window.location.href = "#contact"}
+        <section className="mining-section mining-hero">
+            <div className="mining-container-flex mining-hero-layout">
+                <div style={{ flex: 1 }}>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
                     >
-                        Book a Strategy Session
-                    </motion.button>
+                        <span className="mining-badge">DOJO LEGAL MINING</span>
+                        <h1 className="mining-heading">
+                            Workforce Solutions for <br />
+                            <span className="text-accent">Mining Industry Employers</span>
+                        </h1>
+                        <p className="mining-subheading">
+                            Secure reliable, safety-conscious skilled labour. We combine legal compliance,
+                            visa sponsorship, and specialized recruitment to keep your site fully operational.
+                        </p>
+                        <motion.button
+                            className="mining-button"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => window.location.href = "#contact"}
+                        >
+                            Book a Strategy Session
+                        </motion.button>
+                    </motion.div>
+                </div>
+
+                <motion.div
+                    style={{ flex: 1, width: "100%" }}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                >
+                    <div style={{ width: "100%", height: "400px", borderRadius: "20px", background: "#ddd", display: "flex", alignItems: "center", justifyContent: "center", color: "#666", fontWeight: "bold" }}>
+                        [Hero Image]
+                    </div>
                 </motion.div>
             </div>
-
-            {/* Placeholder for Hero Image */}
-            <motion.div
-                style={styles.imageContainer}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-            >
-                <div style={styles.imagePlaceholder}>
-                    [Insert Mining Hero Image]
-                </div>
-            </motion.div>
         </section>
     )
-}
-
-// Hero-specific styles
-const styles = {
-    container: {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "4rem 8%",
-        backgroundColor: colors.bg,
-        minHeight: "80vh",
-        fontFamily: "'Montserrat', sans-serif",
-        gap: "4rem",
-        overflow: "hidden"
-    },
-    content: { flex: 1, maxWidth: "600px" },
-    badge: {
-        fontSize: "0.9rem", fontWeight: "700", letterSpacing: "0.1em",
-        color: colors.primary, textTransform: "uppercase", marginBottom: "1rem", display: "block"
-    },
-    heading: {
-        fontSize: "3.5rem", lineHeight: "1.1", color: colors.text,
-        marginBottom: "1.5rem", fontWeight: "800"
-    },
-    subheading: {
-        fontSize: "1.1rem", lineHeight: "1.6", color: colors.text,
-        marginBottom: "2.5rem", opacity: 0.8, maxWidth: "500px"
-    },
-    button: {
-        padding: "1rem 2rem", fontSize: "1rem", fontWeight: "600",
-        color: colors.white, backgroundColor: colors.primary, border: "none",
-        borderRadius: "8px", cursor: "pointer", boxShadow: "0 4px 14px rgba(0,0,0,0.15)"
-    },
-    imageContainer: {
-        flex: 1, height: "500px", borderRadius: "20px",
-        overflow: "hidden", boxShadow: "0 20px 40px rgba(0,0,0,0.1)"
-    },
-    imagePlaceholder: {
-        width: "100%", height: "100%", backgroundColor: "#ccc",
-        display: "flex", alignItems: "center", justifyContent: "center",
-        color: "#666", fontWeight: "bold", fontSize: "1.2rem"
-    }
 }
 
 // --- 2. Mission Section ---
 function MiningMission() {
     return (
-        <section style={{ ...sectionStyle, backgroundColor: colors.white, textAlign: "center" }}>
+        <section className="mining-section bg-white text-center">
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
             >
-                <h2 style={{ fontSize: "2.5rem", fontWeight: "800", color: colors.primary, marginBottom: "1.5rem" }}>
+                <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 2.5rem)", fontWeight: "800", color: "#623f35", marginBottom: "1.5rem" }}>
                     Building Safe, Compliant Mining Workforces.<br />Not Just Filling Roles.
                 </h2>
                 <p style={{ fontSize: "1.125rem", lineHeight: "1.8", maxWidth: "800px", margin: "0 auto", opacity: 0.9 }}>
@@ -157,21 +227,22 @@ function MiningBenefits() {
     ]
 
     return (
-        <section style={{ ...sectionStyle, backgroundColor: colors.bg }}>
-            <h2 style={{ fontSize: "2.5rem", fontWeight: "800", marginBottom: "3rem", textAlign: "center" }}>
-                Why Mining Employers Choose <span style={{ color: colors.accent }}>Dojo Legal</span>
+        <section className="mining-section" style={{ backgroundColor: "#F4F1DE" }}>
+            <h2 className="text-center" style={{ fontSize: "clamp(2rem, 5vw, 2.5rem)", fontWeight: "800", marginBottom: "3rem" }}>
+                Why Mining Employers Choose <span className="text-accent">Dojo Legal</span>
             </h2>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem" }}>
+            <div className="mining-grid-benefits">
                 {benefits.map((item, index) => (
                     <motion.div
                         key={index}
-                        style={{ backgroundColor: colors.white, padding: "2rem", borderRadius: "12px", boxShadow: "0 4px 6px rgba(0,0,0,0.05)" }}
+                        className="bg-white"
+                        style={{ padding: "2rem", borderRadius: "12px", boxShadow: "0 4px 6px rgba(0,0,0,0.05)" }}
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: index * 0.2 }}
                     >
-                        <h3 style={{ color: colors.primary, fontSize: "1.25rem", fontWeight: "700", marginBottom: "1rem" }}>{item.title}</h3>
+                        <h3 className="text-primary" style={{ fontSize: "1.25rem", fontWeight: "700", marginBottom: "1rem", color: "#623f35" }}>{item.title}</h3>
                         <p style={{ lineHeight: "1.6" }}>{item.desc}</p>
                     </motion.div>
                 ))}
@@ -185,24 +256,26 @@ function MiningServices() {
     const roles = ["Excavator & Dump Truck Operators", "Diesel Fitters & Heavy Mechanics", "Mining Engineers & Geologists", "Site Safety Officers", "Process Technicians"]
 
     return (
-        <section style={{ ...sectionStyle, backgroundColor: colors.white, display: "flex", gap: "4rem", alignItems: "center", flexWrap: "wrap" }}>
-            <div style={{ flex: 1, minWidth: "300px" }}>
-                <h2 style={{ fontSize: "2.5rem", fontWeight: "800", marginBottom: "1.5rem" }}>
-                    Integrated Workforce, Visa, and Recruitment Support
-                </h2>
-                <p style={{ marginBottom: "2rem", fontSize: "1.1rem", lineHeight: "1.6" }}>
-                    From skilled plant operators to site engineers, we source and sponsor the talent you can't find locally.
-                </p>
-                <ul style={{ listStyle: "none", padding: 0 }}>
-                    {roles.map((role, i) => (
-                        <li key={i} style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "0.8rem", fontSize: "1.1rem" }}>
-                            <span style={{ color: colors.accent, fontWeight: "bold" }}>✓</span> {role}
-                        </li>
-                    ))}
-                </ul>
-            </div>
-            <div style={{ flex: 1, height: "400px", backgroundColor: "#eee", borderRadius: "20px", display: "flex", alignItems: "center", justifyContent: "center", color: "#888" }}>
-                [Workforce Image Placeholder]
+        <section className="mining-section bg-white text-center">
+            <div className="mining-container-flex mining-services-layout">
+                <div style={{ flex: 1, minWidth: "300px", textAlign: "left" }}>
+                    <h2 style={{ fontSize: "clamp(2rem, 4vw, 2.5rem)", fontWeight: "800", marginBottom: "1.5rem" }}>
+                        Integrated Workforce, Visa, and Recruitment Support
+                    </h2>
+                    <p style={{ marginBottom: "2rem", fontSize: "1.1rem", lineHeight: "1.6" }}>
+                        From skilled plant operators to site engineers, we source and sponsor the talent you can't find locally.
+                    </p>
+                    <ul style={{ listStyle: "none", padding: 0 }}>
+                        {roles.map((role, i) => (
+                            <li key={i} style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "0.8rem", fontSize: "1.1rem" }}>
+                                <span className="text-accent" style={{ fontWeight: "bold" }}>✓</span> {role}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                <div style={{ flex: 1, width: "100%", height: "400px", backgroundColor: "#eee", borderRadius: "20px", display: "flex", alignItems: "center", justifyContent: "center", color: "#888" }}>
+                    [Workforce Image Placeholder]
+                </div>
             </div>
         </section>
     )
@@ -211,15 +284,15 @@ function MiningServices() {
 // --- 5. About Us ---
 function MiningAbout() {
     return (
-        <section style={{ ...sectionStyle, backgroundColor: colors.primary, color: colors.white, textAlign: "center" }}>
+        <section className="mining-section bg-primary text-white text-center">
             <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-                <h2 style={{ fontSize: "2.5rem", color: colors.accent, marginBottom: "1.5rem" }}>
+                <h2 className="text-accent" style={{ fontSize: "clamp(2rem, 4vw, 2.5rem)", marginBottom: "1.5rem" }}>
                     Migration Lawyers and Workforce Partners
                 </h2>
                 <p style={{ fontSize: "1.1rem", lineHeight: "1.8", marginBottom: "2rem" }}>
                     Led by experienced immigration lawyers, Dojo Legal bridges the gap between complex Australian migration laws and the practical needs of the mining sector. We don't just find workers; we secure their longevity on your site through proper visa pathways.
                 </p>
-                <div style={{ width: "100px", height: "100px", backgroundColor: colors.white, borderRadius: "50%", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "center", color: colors.primary }}>
+                <div style={{ width: "100px", height: "100px", backgroundColor: "#FFF", borderRadius: "50%", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "center", color: "#623f35" }}>
                     [Team]
                 </div>
             </div>
@@ -229,7 +302,7 @@ function MiningAbout() {
 
 // --- 6. FAQs ---
 function MiningFAQ() {
-    const [activeIndex, setActiveIndex] = useState(null)
+    const [activeIndex, setActiveIndex] = useState<number | null>(null)
     const faqs = [
         { q: "Can you handle labour agreements for remote mining sites?", a: "Yes, we specialise in DAMA and company-specific labour agreements for regional and remote mining operations." },
         { q: "Do your candidates have Australian safety tickets?", a: "We ensure all candidates either hold valid Australian tickets or are guided through the recognition of prior learning (RPL) process." },
@@ -238,17 +311,17 @@ function MiningFAQ() {
     ]
 
     return (
-        <section style={{ ...sectionStyle, backgroundColor: colors.white }}>
-            <h2 style={{ fontSize: "2.5rem", textAlign: "center", marginBottom: "3rem" }}>Frequently Asked Questions</h2>
+        <section className="mining-section bg-white">
+            <h2 className="text-center" style={{ fontSize: "clamp(2rem, 4vw, 2.5rem)", marginBottom: "3rem" }}>Frequently Asked Questions</h2>
             <div style={{ maxWidth: "800px", margin: "0 auto" }}>
                 {faqs.map((item, index) => (
-                    <div key={index} style={{ marginBottom: "1rem", borderBottom: `1px solid ${colors.lightGrey}` }}>
+                    <div key={index} style={{ marginBottom: "1rem", borderBottom: `1px solid #f0f0f0` }}>
                         <button
                             onClick={() => setActiveIndex(activeIndex === index ? null : index)}
-                            style={{ width: "100%", textAlign: "left", padding: "1.5rem", background: "none", border: "none", fontSize: "1.1rem", fontWeight: "600", cursor: "pointer", display: "flex", justifyContent: "space-between", color: colors.text }}
+                            style={{ width: "100%", textAlign: "left", padding: "1.5rem", background: "none", border: "none", fontSize: "1.1rem", fontWeight: "600", cursor: "pointer", display: "flex", justifyContent: "space-between", color: "#264653" }}
                         >
                             {item.q}
-                            <span style={{ color: colors.accent }}>{activeIndex === index ? "−" : "+"}</span>
+                            <span className="text-accent">{activeIndex === index ? "−" : "+"}</span>
                         </button>
                         <AnimatePresence>
                             {activeIndex === index && (
@@ -272,17 +345,17 @@ function MiningFAQ() {
 // --- 7. Contact Us ---
 function MiningContact() {
     return (
-        <section id="contact" style={{ ...sectionStyle, backgroundColor: colors.bg, textAlign: "center" }}>
-            <h2 style={{ fontSize: "2.5rem", fontWeight: "800", marginBottom: "1rem" }}>Ready to Secure Your Workforce?</h2>
+        <section id="contact" className="mining-section text-center" style={{ backgroundColor: "#F4F1DE" }}>
+            <h2 style={{ fontSize: "clamp(2rem, 4vw, 2.5rem)", fontWeight: "800", marginBottom: "1rem" }}>Ready to Secure Your Workforce?</h2>
             <p style={{ fontSize: "1.2rem", marginBottom: "2rem" }}>Reach out for a confidential strategy session.</p>
 
             <div style={{ display: "flex", justifyContent: "center", gap: "2rem", flexWrap: "wrap", marginBottom: "3rem" }}>
-                <div style={{ background: colors.white, padding: "2rem", borderRadius: "10px", minWidth: "250px" }}>
-                    <h4 style={{ color: colors.primary, marginBottom: "0.5rem" }}>Email</h4>
+                <div className="bg-white" style={{ padding: "2rem", borderRadius: "10px", minWidth: "250px" }}>
+                    <h4 className="text-primary" style={{ marginBottom: "0.5rem", color: "#623f35" }}>Email</h4>
                     <div style={{ fontWeight: "600" }}>support@dojolegal.com.au</div>
                 </div>
-                <div style={{ background: colors.white, padding: "2rem", borderRadius: "10px", minWidth: "250px" }}>
-                    <h4 style={{ color: colors.primary, marginBottom: "0.5rem" }}>Phone</h4>
+                <div className="bg-white" style={{ padding: "2rem", borderRadius: "10px", minWidth: "250px" }}>
+                    <h4 className="text-primary" style={{ marginBottom: "0.5rem", color: "#623f35" }}>Phone</h4>
                     <div style={{ fontWeight: "600" }}>0468 836 899</div>
                 </div>
             </div>
@@ -295,7 +368,7 @@ function MiningContact() {
 // --- 8. Footer ---
 function MiningFooter() {
     return (
-        <footer style={{ padding: "2rem 5%", backgroundColor: colors.primary, color: colors.white, display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.9rem" }}>
+        <footer className="mining-section mining-footer-layout bg-primary text-white" style={{ padding: "2rem 5%", display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.9rem" }}>
             <div>© {new Date().getFullYear()} Dojo Legal Australia. All rights reserved.</div>
             <div style={{ display: "flex", gap: "2rem" }}>
                 <span>Privacy Policy</span>
